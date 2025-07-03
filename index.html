@@ -1,140 +1,94 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>TE AMO</title>
+  <meta charset="UTF-8" />
+  <title>Te amo Ezequielito</title>
   <style>
     body {
-      background: #111;
       margin: 0;
       padding: 0;
+      background: #1a1a1a;
+      color: white;
+      font-family: 'Arial', sans-serif;
       overflow: hidden;
       display: flex;
-      flex-wrap: wrap;
-      max-width: 820px;
-      margin: 50px auto;
+      flex-direction: column;
+      align-items: center;
       justify-content: center;
+      height: 100vh;
     }
 
-    div.pixel {
-      width: 20px;
-      height: 20px;
-      margin: 2px;
-      border: 1px solid #222;
-      float: left;
-      opacity: 0;
+    .corazon {
+      width: 200px;
+      height: 180px;
+      position: relative;
+      margin-bottom: 30px;
     }
 
-    /* ❤️ Corazones animados flotando */
-    .heart {
-      position: fixed;
-      width: 20px;
-      height: 20px;
-      background-color: #f39;
-      transform: rotate(45deg);
-      animation: float 6s linear infinite;
-      opacity: 0.8;
-    }
-
-    .heart::before,
-    .heart::after {
+    .corazon::before,
+    .corazon::after {
       content: "";
       position: absolute;
-      width: 20px;
-      height: 20px;
-      background-color: #f39;
-      border-radius: 50%;
-    }
-
-    .heart::before {
-      top: -10px;
-      left: 0;
-    }
-
-    .heart::after {
-      left: -10px;
+      width: 100px;
+      height: 160px;
+      background: red;
+      border-radius: 100px 100px 0 0;
       top: 0;
+      left: 50px;
+      transform: rotate(-45deg);
+      transform-origin: 0 100%;
     }
 
-    @keyframes float {
+    .corazon::after {
+      left: 0;
+      transform: rotate(45deg);
+      transform-origin: 100% 100%;
+    }
+
+    h1 {
+      font-size: 28px;
+      text-align: center;
+    }
+
+    .love-text {
+      position: absolute;
+      color: pink;
+      font-size: 20px;
+      pointer-events: none;
+      animation: floatUp 2s ease-out forwards;
+    }
+
+    @keyframes floatUp {
       0% {
-        transform: translateY(0) rotate(45deg);
         opacity: 1;
+        transform: translateY(0);
       }
       100% {
-        transform: translateY(-100vh) rotate(45deg);
         opacity: 0;
+        transform: translateY(-60px);
       }
     }
   </style>
 </head>
 <body>
-  <!-- Música suave -->
-  <audio autoplay loop>
-    <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_4f51f63553.mp3" type="audio/mpeg">
-    Tu navegador no soporta audio HTML5.
-  </audio>
+  <div class="corazon"></div>
+  <h1>Te amo Ezequielito</h1>
 
   <script>
-    // Animación de TE AMO
-    window.onload = function () {
-      const d = document;
+    document.addEventListener("click", function (e) {
+      const love = document.createElement("div");
+      love.className = "love-text";
+      love.innerText = "I love";
 
-      function fadein(element, speed) {
-        let opacity = 0;
-        element.style.opacity = 0;
-        let timer = setInterval(function () {
-          opacity += 0.1;
-          element.style.opacity = opacity;
-          if (opacity >= 1) clearInterval(timer);
-        }, speed);
-      }
+      love.style.left = `${e.clientX}px`;
+      love.style.top = `${e.clientY}px`;
 
-      const str = [
-        [36, 37, 38, 72, 107, 142, 176, 177, 178],
-        [41, 76, 111, 146, 181, 182, 183],
-        [185, 150, 115, 80, 45, 46, 47, 82, 117, 152, 187],
-        [186, 49, 84, 119, 154, 190],
-        [156, 121, 86, 51, 53, 54, 55, 88, 123, 158, 193, 124, 125, 194, 195],
-        [58, 93, 128, 129, 130, 95, 60, 164, 199],
-        [202, 167, 132, 97, 62, 63, 64, 99, 134, 169, 204],
-        [203, 66, 101, 136, 171, 206, 207, 208, 173, 138, 103, 68]
-      ];
+      document.body.appendChild(love);
 
-      for (let i = 0; i < 245; i++) {
-        const box = d.createElement('div');
-        box.className = 'pixel';
-        d.body.appendChild(box);
-      }
-
-      const pixels = d.getElementsByClassName('pixel');
-      let i = 0, j = 0;
-
-      const timer = setInterval(function () {
-        if (i < str.length) {
-          if (j < str[i].length) {
-            fadein(pixels[str[i][j]], 25);
-            pixels[str[i][j]].style.background = '#F39';
-            j++;
-          } else {
-            i++;
-            j = 0;
-          }
-        } else {
-          clearInterval(timer);
-        }
-      }, 50);
-
-      // Crear corazones flotantes
-      setInterval(() => {
-        const heart = document.createElement("div");
-        heart.className = "heart";
-        heart.style.left = Math.random() * 100 + "vw";
-        heart.style.animationDuration = (4 + Math.random() * 2) + "s";
-        document.body.appendChild(heart);
-        setTimeout(() => heart.remove(), 6000);
-      }, 300);
-    }
+      setTimeout(() => {
+        love.remove();
+      }, 2000);
+    });
   </script>
 </body>
 </html>
