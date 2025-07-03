@@ -1,78 +1,140 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <title>TE AMO</title>
-    <style>
-        body {
-            background: #111;
-            display: flex;
-            flex-wrap: wrap;
-            max-width: 820px;
-            margin: 50px auto;
-            justify-content: center;
-        }
-        div {
-            width: 20px;
-            height: 20px;
-            margin: 2px;
-            border: 1px solid #222;
-            float: left;
-            opacity: 0;
-        }
-    </style>
-    <script>
-        window.onload = function () {
-            const d = document;
+  <meta charset="UTF-8">
+  <title>TE AMO</title>
+  <style>
+    body {
+      background: #111;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      display: flex;
+      flex-wrap: wrap;
+      max-width: 820px;
+      margin: 50px auto;
+      justify-content: center;
+    }
 
-            function fadein(element, speed) {
-                let opacity = 0;
-                element.style.opacity = 0;
-                let timer = setInterval(function () {
-                    opacity += 0.1;
-                    element.style.opacity = opacity;
-                    if (opacity >= 1) {
-                        clearInterval(timer);
-                    }
-                }, speed);
-            }
+    div.pixel {
+      width: 20px;
+      height: 20px;
+      margin: 2px;
+      border: 1px solid #222;
+      float: left;
+      opacity: 0;
+    }
 
-            const str = [
-                [36, 37, 38, 72, 107, 142, 176, 177, 178],
-                [41, 76, 111, 146, 181, 182, 183],
-                [185, 150, 115, 80, 45, 46, 47, 82, 117, 152, 187],
-                [186, 49, 84, 119, 154, 190],
-                [156, 121, 86, 51, 53, 54, 55, 88, 123, 158, 193, 124, 125, 194, 195],
-                [58, 93, 128, 129, 130, 95, 60, 164, 199],
-                [202, 167, 132, 97, 62, 63, 64, 99, 134, 169, 204],
-                [203, 66, 101, 136, 171, 206, 207, 208, 173, 138, 103, 68]
-            ];
+    /* ❤️ Corazones animados flotando */
+    .heart {
+      position: fixed;
+      width: 20px;
+      height: 20px;
+      background-color: #f39;
+      transform: rotate(45deg);
+      animation: float 6s linear infinite;
+      opacity: 0.8;
+    }
 
-            for (let i = 0; i < 245; i++) {
-                const box = d.createElement('div');
-                d.body.appendChild(box);
-            }
+    .heart::before,
+    .heart::after {
+      content: "";
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background-color: #f39;
+      border-radius: 50%;
+    }
 
-            const blocks = d.getElementsByTagName('div');
-            let i = 0, j = 0;
+    .heart::before {
+      top: -10px;
+      left: 0;
+    }
 
-            const timer = setInterval(function () {
-                if (i < str.length) {
-                    if (j < str[i].length) {
-                        fadein(blocks[str[i][j]], 25);
-                        blocks[str[i][j]].style.background = '#F39';
-                        j++;
-                    } else {
-                        i++;
-                        j = 0;
-                    }
-                } else {
-                    clearInterval(timer);
-                }
-            }, 50);
-        }
-    </script>
+    .heart::after {
+      left: -10px;
+      top: 0;
+    }
+
+    @keyframes float {
+      0% {
+        transform: translateY(0) rotate(45deg);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-100vh) rotate(45deg);
+        opacity: 0;
+      }
+    }
+  </style>
 </head>
 <body>
+  <!-- Música suave -->
+  <audio autoplay loop>
+    <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_4f51f63553.mp3" type="audio/mpeg">
+    Tu navegador no soporta audio HTML5.
+  </audio>
+
+  <script>
+    // Animación de TE AMO
+    window.onload = function () {
+      const d = document;
+
+      function fadein(element, speed) {
+        let opacity = 0;
+        element.style.opacity = 0;
+        let timer = setInterval(function () {
+          opacity += 0.1;
+          element.style.opacity = opacity;
+          if (opacity >= 1) clearInterval(timer);
+        }, speed);
+      }
+
+      const str = [
+        [36, 37, 38, 72, 107, 142, 176, 177, 178],
+        [41, 76, 111, 146, 181, 182, 183],
+        [185, 150, 115, 80, 45, 46, 47, 82, 117, 152, 187],
+        [186, 49, 84, 119, 154, 190],
+        [156, 121, 86, 51, 53, 54, 55, 88, 123, 158, 193, 124, 125, 194, 195],
+        [58, 93, 128, 129, 130, 95, 60, 164, 199],
+        [202, 167, 132, 97, 62, 63, 64, 99, 134, 169, 204],
+        [203, 66, 101, 136, 171, 206, 207, 208, 173, 138, 103, 68]
+      ];
+
+      for (let i = 0; i < 245; i++) {
+        const box = d.createElement('div');
+        box.className = 'pixel';
+        d.body.appendChild(box);
+      }
+
+      const pixels = d.getElementsByClassName('pixel');
+      let i = 0, j = 0;
+
+      const timer = setInterval(function () {
+        if (i < str.length) {
+          if (j < str[i].length) {
+            fadein(pixels[str[i][j]], 25);
+            pixels[str[i][j]].style.background = '#F39';
+            j++;
+          } else {
+            i++;
+            j = 0;
+          }
+        } else {
+          clearInterval(timer);
+        }
+      }, 50);
+
+      // Crear corazones flotantes
+      setInterval(() => {
+        const heart = document.createElement("div");
+        heart.className = "heart";
+        heart.style.left = Math.random() * 100 + "vw";
+        heart.style.animationDuration = (4 + Math.random() * 2) + "s";
+        document.body.appendChild(heart);
+        setTimeout(() => heart.remove(), 6000);
+      }, 300);
+    }
+  </script>
 </body>
 </html>
